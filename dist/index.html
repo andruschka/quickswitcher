@@ -1,0 +1,31 @@
+<html>
+  <head></head>
+  <body>
+    <div id="test"></div>
+    <script src="./quickswitcher.browser.js"></script>
+    <script>
+      var qs = new QuickSwitcher({
+        target: document.querySelector('#test'),
+        data: {
+          options: [
+            {
+              value: '/dashboard/reporting',
+              title: 'Reporting',
+            },
+            {
+              value: '/dashboard/trackings',
+              title: 'Sendungen',
+            },
+            {
+              value: '/dashboard/watchlist',
+              title: 'Ereignisse',
+            },
+          ],
+          run: function (str) {
+            console.log(window.location.href.replace(window.location.pathname, str))
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

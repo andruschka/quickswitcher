@@ -1,0 +1,198 @@
+{{#if open}}
+  <div id="qs-modal">
+    <div id="qs-bg"></div>
+    <div id="qs-content-wrap" on:click="close()">
+    <div id="qs-content">
+      <div id="qs-jumper-help" aria-hidden="true">
+        <strong>up</strong>/<strong>down</strong> to navigate; <strong>enter</strong> to select; <strong>esc</strong> to dismiss
+		  </div>
+      <input type="text" autofocus="" id="qs-inp" bind:value on:keypress="switchCurrentActive(event)" placeholder="{{placeholder}}" on:keydown="changeSelected(event)">
+      <ul id="qs-options">
+        {{#each sortedOptions as option, index}}
+          <li on:click="run(option)" class="{{ optionIsActive(index, selected) ? 'active' : '' }}">{{option.title}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    </div>
+  </div>
+{{/if}}
+
+<script>
+  // ### TODO : 
+  // - last used
+  var defaultRun = function (str) {
+    return window.location.assign(window.location.href.replace(window.location.pathname, str))
+  }
+
+  export default {
+    data: function () {
+      return {
+        open: false,
+        value: '',
+        options: [],
+        run: defaultRun,
+        placeholder: '',
+        active: null,
+        selected: 0,
+      }
+    },
+
+    oncreate: function () {
+      var _this = this
+      window.onkeyup = function (e) {
+        // open
+        if (e.ctrlKey && e.keyCode === 75) {
+          if (!_this.get(open)) {
+            _this.set({ open: true })
+            document.getElementById('qs-inp').focus()
+          }
+
+          // close
+        } else if (e.keyCode === 27) {
+          _this.close()
+        }
+      }
+    },
+
+    helpers: {
+      optionIsActive: function (index, selected) {
+        if (index === selected) {
+          return true
+        } else return false
+      },
+    },
+
+    computed: {
+      sortedOptions: function (options, value) {
+        var rgx = new RegExp(value, 'ig')
+        return options.filter(function (opt) {
+          return (rgx.test(opt.value) || rgx.test(opt.title))
+        })
+      },
+    },
+
+    methods: {
+      close: function () {
+        this.set({ open: false, value: '', selected: 0 })
+      },
+      run: function (opt) {
+        this.get('run').call(null, opt.value)
+        this.close()
+      },
+      switchCurrentActive: function (evt) {
+        var selected = this.get('selected')
+        var opts = this.get('sortedOptions')
+        if (evt.key === 'Enter') {
+          if (opts && opts[0]) this.run(opts[selected])
+          else this.close()
+        } else {
+          this.set({ selected: 0 })
+        }
+      },
+      changeSelected: function (evt) {
+        var selected = this.get('selected')
+        var opts = this.get('sortedOptions')
+        if (evt.key === 'ArrowDown') {
+          if (selected < opts.length - 1) this.set({ selected: selected + 1 })
+        } else if (evt.key === 'ArrowUp') {
+          if (selected > 0) this.set({ selected: selected - 1 })
+        } else if (evt.key === 'Backspace') {
+          this.set({ selected: 0 })
+        }
+      },
+    },
+  }
+
+</script>
+
+<style>
+  #qs-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 101;
+  }
+  #qs-bg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,.7);
+    filter: blur(5px);
+    z-index: 100;
+  }
+  #qs-content-wrap {
+    z-index: 102;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding-top: 30vh;
+  }
+  #qs-content {
+    max-width: 600px;
+    width: 460px;
+    box-shadow: 0 1px 10px rgba(0,0,0,.5);
+    background: #FFF;
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    margin: 0 auto;
+    font-family: Slack-Lato,appleLogo,sans-serif;
+  }
+  #qs-jumper-help {
+    color: #A0A0A2;
+    font-size: .8rem;
+    margin-bottom: 8px;
+    /*text-align: right;*/
+  }
+  #qs-inp {
+    width: 100%;
+    font-size: 2rem;
+    font-family: Slack-Lato,appleLogo,sans-serif;
+    font-weight: 700;
+    padding: 1rem;
+    border: 1px solid #A0A0A2!important;
+    border-radius: 6px;
+    box-shadow: none!important;
+    color: #2C2D30;
+    margin-bottom: 1rem;
+  }
+  #qs-options {
+    margin-top: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  #qs-options li {
+    text-decoration: none;
+    outline: 0;
+    background: 0 0;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 16px;
+    line-height: 30px;
+    border-radius: 6px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0 .5rem 0 .75rem;
+    position: relative;
+    border: 1px solid #fff;
+    color: #000;
+  }
+  #qs-options li.active  {
+    border-color: steelblue;
+    background-color: steelblue;
+    color: #fff;
+  }
+  #qs-options li:hover  {
+    border-color: steelblue;
+  }
+  #qs-options li:hover {
+    cursor: pointer;
+  }
+</style>
