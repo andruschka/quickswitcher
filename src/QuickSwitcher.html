@@ -137,8 +137,7 @@
     padding-top: 30vh;
   }
   #qs-content {
-    max-width: 600px;
-    width: 460px;
+    max-width: 500px;
     box-shadow: 0 1px 10px rgba(0,0,0,.5);
     background: #FFF;
     border-radius: 8px;
@@ -197,5 +196,14 @@
   }
   #qs-options li:hover {
     cursor: pointer;
+  }
+
+  @media(max-width:768px) {
+    #qs-content-wrap {
+      padding-top: 0px;
+    }
+    #qs-content {
+      border-radius: 0px;
+    }
   }
 </style>
