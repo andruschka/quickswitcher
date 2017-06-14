@@ -121,17 +121,19 @@ function create_main_fragment ( state, component ) {
 					if_block.mount( if_block_anchor.parentNode, if_block_anchor );
 				}
 			} else if ( if_block ) {
-				if_block.destroy( true );
+				if_block.unmount();
+				if_block.destroy();
 				if_block = null;
 			}
 		},
 
-		destroy: function ( detach ) {
-			if ( if_block ) if_block.destroy( detach );
+		unmount: function () {
+			if ( if_block ) if_block.unmount();
+			detachNode( if_block_anchor );
+		},
 
-			if ( detach ) {
-				detachNode( if_block_anchor );
-			}
+		destroy: function () {
+			if ( if_block ) if_block.destroy();
 		}
 	};
 }
@@ -141,7 +143,7 @@ function create_each_block ( state, each_block_value, option, index, component )
 
 	var li = createElement( 'li' );
 	li.className = li_class_value = template.helpers.optionIsActive(index, state.selected) ? 'active' : '';
-	addEventListener( li, 'click', click_handler );
+	addListener( li, 'click', click_handler );
 
 	li._svelte = {
 		component: component,
@@ -170,12 +172,12 @@ function create_each_block ( state, each_block_value, option, index, component )
 			}
 		},
 
-		destroy: function ( detach ) {
-			removeEventListener( li, 'click', click_handler );
+		unmount: function () {
+			detachNode( li );
+		},
 
-			if ( detach ) {
-				detachNode( li );
-			}
+		destroy: function () {
+			removeListener( li, 'click', click_handler );
 		}
 	};
 }
@@ -198,7 +200,7 @@ function create_if_block ( state, component ) {
 		component.close();
 	}
 
-	addEventListener( div_2, 'click', click_handler );
+	addListener( div_2, 'click', click_handler );
 	var div_3 = createElement( 'div' );
 	appendNode( div_3, div_2 );
 	div_3.id = "qs-content";
@@ -236,19 +238,19 @@ function create_if_block ( state, component ) {
 		input_updating = false;
 	}
 
-	addEventListener( input, 'input', input_input_handler );
+	addListener( input, 'input', input_input_handler );
 
 	function keypress_handler ( event ) {
 		component.switchCurrentActive(event);
 	}
 
-	addEventListener( input, 'keypress', keypress_handler );
+	addListener( input, 'keypress', keypress_handler );
 
 	function keydown_handler ( event ) {
 		component.changeSelected(event);
 	}
 
-	addEventListener( input, 'keydown', keydown_handler );
+	addListener( input, 'keydown', keydown_handler );
 
 	input.value = state.value ;
 
@@ -291,22 +293,29 @@ function create_if_block ( state, component ) {
 					}
 				}
 
-				destroyEach( each_block_iterations, true, each_block_value.length );
+				for ( ; i < each_block_iterations.length; i += 1 ) {
+					each_block_iterations[i].unmount();
+					each_block_iterations[i].destroy();
+				}
 				each_block_iterations.length = each_block_value.length;
 			}
 		},
 
-		destroy: function ( detach ) {
-			removeEventListener( div_2, 'click', click_handler );
-			removeEventListener( input, 'input', input_input_handler );
-			removeEventListener( input, 'keypress', keypress_handler );
-			removeEventListener( input, 'keydown', keydown_handler );
+		unmount: function () {
+			detachNode( div );
+
+			for ( var i = 0; i < each_block_iterations.length; i += 1 ) {
+				each_block_iterations[i].unmount();
+			}
+		},
+
+		destroy: function () {
+			removeListener( div_2, 'click', click_handler );
+			removeListener( input, 'input', input_input_handler );
+			removeListener( input, 'keypress', keypress_handler );
+			removeListener( input, 'keydown', keydown_handler );
 
 			destroyEach( each_block_iterations, false, 0 );
-
-			if ( detach ) {
-				detachNode( div );
-			}
 		}
 	};
 }
@@ -366,146 +375,154 @@ QuickSwitcher.prototype._set = function _set ( newState ) {
 QuickSwitcher.prototype.teardown = QuickSwitcher.prototype.destroy = function destroy ( detach ) {
 	this.fire( 'destroy' );
 
-	this._fragment.destroy( detach !== false );
+	if ( detach !== false ) this._fragment.unmount();
+	this._fragment.destroy();
 	this._fragment = null;
 
 	this._state = {};
 	this._torndown = true;
 };
 
-function createElement ( name ) {
-	return document.createElement( name );
+function createElement(name) {
+	return document.createElement(name);
 }
 
-function insertNode ( node, target, anchor ) {
-	target.insertBefore( node, anchor );
+function insertNode(node, target, anchor) {
+	target.insertBefore(node, anchor);
 }
 
-function setAttribute ( node, attribute, value ) {
-	node.setAttribute( attribute, value );
+function setAttribute(node, attribute, value) {
+	node.setAttribute(attribute, value);
 }
 
-function detachNode ( node ) {
-	node.parentNode.removeChild( node );
+function detachNode(node) {
+	node.parentNode.removeChild(node);
 }
 
-function appendNode ( node, target ) {
-	target.appendChild( node );
+function appendNode(node, target) {
+	target.appendChild(node);
 }
 
-function createText ( data ) {
-	return document.createTextNode( data );
+function createText(data) {
+	return document.createTextNode(data);
 }
 
-function addEventListener ( node, event, handler ) {
-	node.addEventListener( event, handler, false );
+function addListener(node, event, handler) {
+	node.addEventListener(event, handler, false);
 }
 
-function removeEventListener ( node, event, handler ) {
-	node.removeEventListener( event, handler, false );
+function removeListener(node, event, handler) {
+	node.removeEventListener(event, handler, false);
 }
 
-function destroyEach ( iterations, detach, start ) {
-	for ( var i = start; i < iterations.length; i += 1 ) {
-		if ( iterations[i] ) iterations[i].destroy( detach );
+function destroyEach(iterations, detach, start) {
+	for (var i = start; i < iterations.length; i += 1) {
+		if (iterations[i]) iterations[i].destroy(detach);
 	}
 }
 
-function createComment () {
-	return document.createComment( '' );
+function createComment() {
+	return document.createComment('');
 }
 
-function differs ( a, b ) {
-	return ( a !== b ) || ( a && ( typeof a === 'object' ) || ( typeof a === 'function' ) );
+function differs(a, b) {
+	return a !== b || ((a && typeof a === 'object') || typeof a === 'function');
 }
 
-function assign ( target ) {
-	for ( var i = 1; i < arguments.length; i += 1 ) {
-		var source = arguments[i];
-		for ( var k in source ) target[k] = source[k];
+function assign(target) {
+	var k,
+		source,
+		i = 1,
+		len = arguments.length;
+	for (; i < len; i++) {
+		source = arguments[i];
+		for (k in source) target[k] = source[k];
 	}
 
 	return target;
 }
 
-function dispatchObservers ( component, group, newState, oldState ) {
-	for ( var key in group ) {
-		if ( !( key in newState ) ) continue;
+function dispatchObservers(component, group, newState, oldState) {
+	for (var key in group) {
+		if (!(key in newState)) continue;
 
-		var newValue = newState[ key ];
-		var oldValue = oldState[ key ];
+		var newValue = newState[key];
+		var oldValue = oldState[key];
 
-		if ( differs( newValue, oldValue ) ) {
-			var callbacks = group[ key ];
-			if ( !callbacks ) continue;
+		if (differs(newValue, oldValue)) {
+			var callbacks = group[key];
+			if (!callbacks) continue;
 
-			for ( var i = 0; i < callbacks.length; i += 1 ) {
+			for (var i = 0; i < callbacks.length; i += 1) {
 				var callback = callbacks[i];
-				if ( callback.__calling ) continue;
+				if (callback.__calling) continue;
 
 				callback.__calling = true;
-				callback.call( component, newValue, oldValue );
+				callback.call(component, newValue, oldValue);
 				callback.__calling = false;
 			}
 		}
 	}
 }
 
-function get ( key ) {
-	return key ? this._state[ key ] : this._state;
+function get(key) {
+	return key ? this._state[key] : this._state;
 }
 
-function fire ( eventName, data ) {
-	var handlers = eventName in this._handlers && this._handlers[ eventName ].slice();
-	if ( !handlers ) return;
+function fire(eventName, data) {
+	var handlers =
+		eventName in this._handlers && this._handlers[eventName].slice();
+	if (!handlers) return;
 
-	for ( var i = 0; i < handlers.length; i += 1 ) {
-		handlers[i].call( this, data );
+	for (var i = 0; i < handlers.length; i += 1) {
+		handlers[i].call(this, data);
 	}
 }
 
-function observe ( key, callback, options ) {
-	var group = ( options && options.defer ) ? this._observers.post : this._observers.pre;
+function observe(key, callback, options) {
+	var group = options && options.defer
+		? this._observers.post
+		: this._observers.pre;
 
-	( group[ key ] || ( group[ key ] = [] ) ).push( callback );
+	(group[key] || (group[key] = [])).push(callback);
 
-	if ( !options || options.init !== false ) {
+	if (!options || options.init !== false) {
 		callback.__calling = true;
-		callback.call( this, this._state[ key ] );
+		callback.call(this, this._state[key]);
 		callback.__calling = false;
 	}
 
 	return {
-		cancel: function () {
-			var index = group[ key ].indexOf( callback );
-			if ( ~index ) group[ key ].splice( index, 1 );
+		cancel: function() {
+			var index = group[key].indexOf(callback);
+			if (~index) group[key].splice(index, 1);
 		}
 	};
 }
 
-function on ( eventName, handler ) {
-	if ( eventName === 'teardown' ) return this.on( 'destroy', handler );
+function on(eventName, handler) {
+	if (eventName === 'teardown') return this.on('destroy', handler);
 
-	var handlers = this._handlers[ eventName ] || ( this._handlers[ eventName ] = [] );
-	handlers.push( handler );
+	var handlers = this._handlers[eventName] || (this._handlers[eventName] = []);
+	handlers.push(handler);
 
 	return {
-		cancel: function () {
-			var index = handlers.indexOf( handler );
-			if ( ~index ) handlers.splice( index, 1 );
+		cancel: function() {
+			var index = handlers.indexOf(handler);
+			if (~index) handlers.splice(index, 1);
 		}
 	};
 }
 
-function set ( newState ) {
-	this._set( assign( {}, newState ) );
+function set(newState) {
+	this._set(assign({}, newState));
 	this._root._flush();
 }
 
-function _flush () {
-	if ( !this._renderHooks ) return;
+function _flush() {
+	if (!this._renderHooks) return;
 
-	while ( this._renderHooks.length ) {
+	while (this._renderHooks.length) {
 		this._renderHooks.pop()();
 	}
 }
