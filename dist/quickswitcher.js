@@ -94,276 +94,85 @@ var template = (function () {
 
 }());
 
-var addedCss = false;
-function addCss () {
+function add_css () {
 	var style = createElement( 'style' );
+	style.id = "svelte-4204653278-style";
 	style.textContent = "\n  [svelte-4204653278]#qs-modal, [svelte-4204653278] #qs-modal {\n    position: fixed;\n    left: 0;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 101;\n  }\n  [svelte-4204653278]#qs-bg, [svelte-4204653278] #qs-bg {\n    position: absolute;\n    left: 0px;\n    top: 0px;\n    height: 100%;\n    width: 100%;\n    background-color: rgba(0,0,0,.7);\n    filter: blur(5px);\n    z-index: 100;\n  }\n  [svelte-4204653278]#qs-content-wrap, [svelte-4204653278] #qs-content-wrap {\n    z-index: 102;\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    padding-top: 30vh;\n  }\n  [svelte-4204653278]#qs-content, [svelte-4204653278] #qs-content {\n    max-width: 600px;\n    width: 460px;\n    box-shadow: 0 1px 10px rgba(0,0,0,.5);\n    background: #FFF;\n    border-radius: 8px;\n    padding: .75rem 1rem;\n    margin: 0 auto;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n  }\n  [svelte-4204653278]#qs-jumper-help, [svelte-4204653278] #qs-jumper-help {\n    color: #A0A0A2;\n    font-size: .8rem;\n    margin-bottom: 8px;\n    \n  }\n  [svelte-4204653278]#qs-inp, [svelte-4204653278] #qs-inp {\n    width: 100%;\n    font-size: 2rem;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n    font-weight: 700;\n    padding: 1rem;\n    border: 1px solid #A0A0A2!important;\n    border-radius: 6px;\n    box-shadow: none!important;\n    color: #2C2D30;\n    margin-bottom: 1rem;\n  }\n  [svelte-4204653278]#qs-options, [svelte-4204653278] #qs-options {\n    margin-top: 10px;\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n  [svelte-4204653278]#qs-options li, [svelte-4204653278] #qs-options li {\n    text-decoration: none;\n    outline: 0;\n    background: 0 0;\n    display: block;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    font-size: 16px;\n    line-height: 30px;\n    border-radius: 6px;\n    font-weight: 700;\n    margin: 0;\n    padding: 0 .5rem 0 .75rem;\n    position: relative;\n    border: 1px solid #fff;\n    color: #000;\n  }\n  [svelte-4204653278]#qs-options li.active, [svelte-4204653278] #qs-options li.active  {\n    border-color: steelblue;\n    background-color: steelblue;\n    color: #fff;\n  }\n  [svelte-4204653278]#qs-options li:hover, [svelte-4204653278] #qs-options li:hover  {\n    border-color: steelblue;\n  }\n  [svelte-4204653278]#qs-options li:hover, [svelte-4204653278] #qs-options li:hover {\n    cursor: pointer;\n  }\n";
 	appendNode( style, document.head );
-
-	addedCss = true;
 }
 
-function renderMainFragment ( root, component ) {
-	var ifBlock_anchor = createComment();
-	
-	function getBlock ( root ) {
-		if ( root.open ) return renderIfBlock_0;
-		return null;
-	}
-	
-	var currentBlock = getBlock( root );
-	var ifBlock = currentBlock && currentBlock( root, component );
+function create_main_fragment ( state, component ) {
+	var if_block = (state.open) && create_if_block( state, component );
+
+	var if_block_anchor = createComment();
 
 	return {
 		mount: function ( target, anchor ) {
-			insertNode( ifBlock_anchor, target, anchor );
-			if ( ifBlock ) ifBlock.mount( ifBlock_anchor.parentNode, ifBlock_anchor );
+			if ( if_block ) if_block.mount( target, anchor );
+			insertNode( if_block_anchor, target, anchor );
 		},
-		
-		update: function ( changed, root ) {
-			var __tmp;
-		
-			var _currentBlock = currentBlock;
-			currentBlock = getBlock( root );
-			if ( _currentBlock === currentBlock && ifBlock) {
-				ifBlock.update( changed, root );
-			} else {
-				if ( ifBlock ) ifBlock.teardown( true );
-				ifBlock = currentBlock && currentBlock( root, component );
-				if ( ifBlock ) ifBlock.mount( ifBlock_anchor.parentNode, ifBlock_anchor );
-			}
-		},
-		
-		teardown: function ( detach ) {
-			if ( ifBlock ) ifBlock.teardown( detach );
-			
-			if ( detach ) {
-				detachNode( ifBlock_anchor );
-			}
-		}
-	};
-}
 
-function renderIfBlock_0 ( root, component ) {
-	var div = createElement( 'div' );
-	setAttribute( div, 'svelte-4204653278', '' );
-	div.id = "qs-modal";
-	
-	var div$1 = createElement( 'div' );
-	setAttribute( div$1, 'svelte-4204653278', '' );
-	div$1.id = "qs-bg";
-	
-	appendNode( div$1, div );
-	appendNode( createText( "\n    " ), div );
-	
-	var div$2 = createElement( 'div' );
-	setAttribute( div$2, 'svelte-4204653278', '' );
-	div$2.id = "qs-content-wrap";
-	
-	function clickHandler ( event ) {
-		component.close();
-	}
-	
-	addEventListener( div$2, 'click', clickHandler );
-	
-	appendNode( div$2, div );
-	
-	var div$3 = createElement( 'div' );
-	setAttribute( div$3, 'svelte-4204653278', '' );
-	div$3.id = "qs-content";
-	
-	appendNode( div$3, div$2 );
-	
-	var div$4 = createElement( 'div' );
-	setAttribute( div$4, 'svelte-4204653278', '' );
-	div$4.id = "qs-jumper-help";
-	setAttribute( div$4, 'aria-hidden', "true" );
-	
-	appendNode( div$4, div$3 );
-	
-	var strong = createElement( 'strong' );
-	setAttribute( strong, 'svelte-4204653278', '' );
-	
-	appendNode( strong, div$4 );
-	appendNode( createText( "up" ), strong );
-	appendNode( createText( "/" ), div$4 );
-	
-	var strong$1 = createElement( 'strong' );
-	setAttribute( strong$1, 'svelte-4204653278', '' );
-	
-	appendNode( strong$1, div$4 );
-	appendNode( createText( "down" ), strong$1 );
-	appendNode( createText( " to navigate; " ), div$4 );
-	
-	var strong$2 = createElement( 'strong' );
-	setAttribute( strong$2, 'svelte-4204653278', '' );
-	
-	appendNode( strong$2, div$4 );
-	appendNode( createText( "enter" ), strong$2 );
-	appendNode( createText( " to select; " ), div$4 );
-	
-	var strong$3 = createElement( 'strong' );
-	setAttribute( strong$3, 'svelte-4204653278', '' );
-	
-	appendNode( strong$3, div$4 );
-	appendNode( createText( "esc" ), strong$3 );
-	appendNode( createText( " to dismiss" ), div$4 );
-	appendNode( createText( "\n      " ), div$3 );
-	
-	var input = createElement( 'input' );
-	setAttribute( input, 'svelte-4204653278', '' );
-	input.type = "text";
-	input.autofocus = '';
-	input.id = "qs-inp";
-	
-	var input_updating = false;
-	
-	function inputChangeHandler () {
-		input_updating = true;
-		component._set({ value: input.value });
-		input_updating = false;
-	}
-	
-	addEventListener( input, 'input', inputChangeHandler );
-	
-	function keypressHandler ( event ) {
-		component.switchCurrentActive(event);
-	}
-	
-	addEventListener( input, 'keypress', keypressHandler );
-	
-	var last_input_placeholder = root.placeholder;
-	input.placeholder = last_input_placeholder;
-	
-	function keydownHandler ( event ) {
-		component.changeSelected(event);
-	}
-	
-	addEventListener( input, 'keydown', keydownHandler );
-	
-	input.__svelte = {
-		root: root
-	};
-	
-	appendNode( input, div$3 );
-	
-	input.value = root.value ;
-	
-	appendNode( createText( "\n      " ), div$3 );
-	
-	var ul = createElement( 'ul' );
-	setAttribute( ul, 'svelte-4204653278', '' );
-	ul.id = "qs-options";
-	
-	appendNode( ul, div$3 );
-	var eachBlock_anchor = createComment();
-	appendNode( eachBlock_anchor, ul );
-	var eachBlock_value = root.sortedOptions;
-	var eachBlock_iterations = [];
-	
-	for ( var i = 0; i < eachBlock_value.length; i += 1 ) {
-		eachBlock_iterations[i] = renderEachBlock( root, eachBlock_value, eachBlock_value[i], i, component );
-		eachBlock_iterations[i].mount( eachBlock_anchor.parentNode, eachBlock_anchor );
-	}
-
-	return {
-		mount: function ( target, anchor ) {
-			insertNode( div, target, anchor );
-		},
-		
-		update: function ( changed, root ) {
-			var __tmp;
-		
-			if ( !input_updating ) {
-				input.value = root.value ;
-			}
-			
-			if ( ( __tmp = root.placeholder ) !== last_input_placeholder ) {
-				last_input_placeholder = __tmp;
-				input.placeholder = last_input_placeholder;
-			}
-			
-			input.__svelte.root = root;
-			
-			var eachBlock_value = root.sortedOptions;
-			
-			for ( var i = 0; i < eachBlock_value.length; i += 1 ) {
-				if ( !eachBlock_iterations[i] ) {
-					eachBlock_iterations[i] = renderEachBlock( root, eachBlock_value, eachBlock_value[i], i, component );
-					eachBlock_iterations[i].mount( eachBlock_anchor.parentNode, eachBlock_anchor );
+		update: function ( changed, state ) {
+			if ( state.open ) {
+				if ( if_block ) {
+					if_block.update( changed, state );
 				} else {
-					eachBlock_iterations[i].update( changed, root, eachBlock_value, eachBlock_value[i], i );
+					if_block = create_if_block( state, component );
+					if_block.mount( if_block_anchor.parentNode, if_block_anchor );
 				}
+			} else if ( if_block ) {
+				if_block.destroy( true );
+				if_block = null;
 			}
-			
-			teardownEach( eachBlock_iterations, true, eachBlock_value.length );
-			
-			eachBlock_iterations.length = eachBlock_value.length;
 		},
-		
-		teardown: function ( detach ) {
-			removeEventListener( div$2, 'click', clickHandler );
-			removeEventListener( input, 'input', inputChangeHandler );
-			removeEventListener( input, 'keypress', keypressHandler );
-			removeEventListener( input, 'keydown', keydownHandler );
-			
-			teardownEach( eachBlock_iterations, false );
-			
+
+		destroy: function ( detach ) {
+			if ( if_block ) if_block.destroy( detach );
+
 			if ( detach ) {
-				detachNode( div );
+				detachNode( if_block_anchor );
 			}
 		}
 	};
 }
 
-function renderEachBlock ( root, eachBlock_value, option, index, component ) {
+function create_each_block ( state, each_block_value, option, index, component ) {
+	var li_class_value, text_value;
+
 	var li = createElement( 'li' );
-	setAttribute( li, 'svelte-4204653278', '' );
-	
-	function clickHandler ( event ) {
-		var eachBlock_value = this.__svelte.eachBlock_value, index = this.__svelte.index, option = eachBlock_value[index]
-		
-		component.run(option);
-	}
-	
-	addEventListener( li, 'click', clickHandler );
-	
-	var last_li_class = template.helpers.optionIsActive(index, root.selected) ? 'active' : '';
-	li.className = last_li_class;
-	
-	li.__svelte = {
-		eachBlock_value: eachBlock_value,
+	li.className = li_class_value = template.helpers.optionIsActive(index, state.selected) ? 'active' : '';
+	addEventListener( li, 'click', click_handler );
+
+	li._svelte = {
+		component: component,
+		each_block_value: each_block_value,
 		index: index
 	};
-	
-	var last_text = option.title;
-	var text = createText( last_text );
+
+	var text = createText( text_value = option.title );
 	appendNode( text, li );
 
 	return {
 		mount: function ( target, anchor ) {
 			insertNode( li, target, anchor );
 		},
-		
-		update: function ( changed, root, eachBlock_value, option, index ) {
-			var __tmp;
-		
-			if ( ( __tmp = template.helpers.optionIsActive(index, root.selected) ? 'active' : '' ) !== last_li_class ) {
-				last_li_class = __tmp;
-				li.className = last_li_class;
+
+		update: function ( changed, state, each_block_value, option, index ) {
+			if ( li_class_value !== ( li_class_value = template.helpers.optionIsActive(index, state.selected) ? 'active' : '' ) ) {
+				li.className = li_class_value;
 			}
-			
-			li.__svelte.eachBlock_value = eachBlock_value;
-			li.__svelte.index = index;
-			
-			if ( ( __tmp = option.title ) !== last_text ) {
-				text.data = last_text = __tmp;
+
+			li._svelte.each_block_value = each_block_value;
+			li._svelte.index = index;
+
+			if ( text_value !== ( text_value = option.title ) ) {
+				text.data = text_value;
 			}
 		},
-		
-		teardown: function ( detach ) {
-			removeEventListener( li, 'click', clickHandler );
-			
+
+		destroy: function ( detach ) {
+			removeEventListener( li, 'click', click_handler );
+
 			if ( detach ) {
 				detachNode( li );
 			}
@@ -371,137 +180,282 @@ function renderEachBlock ( root, eachBlock_value, option, index, component ) {
 	};
 }
 
+function create_if_block ( state, component ) {
+	var input_placeholder_value, input_updating = false;
+
+	var div = createElement( 'div' );
+	setAttribute( div, 'svelte-4204653278', '' );
+	div.id = "qs-modal";
+	var div_1 = createElement( 'div' );
+	appendNode( div_1, div );
+	div_1.id = "qs-bg";
+	appendNode( createText( "\n    " ), div );
+	var div_2 = createElement( 'div' );
+	appendNode( div_2, div );
+	div_2.id = "qs-content-wrap";
+
+	function click_handler ( event ) {
+		component.close();
+	}
+
+	addEventListener( div_2, 'click', click_handler );
+	var div_3 = createElement( 'div' );
+	appendNode( div_3, div_2 );
+	div_3.id = "qs-content";
+	var div_4 = createElement( 'div' );
+	appendNode( div_4, div_3 );
+	div_4.id = "qs-jumper-help";
+	setAttribute( div_4, 'aria-hidden', "true" );
+	var strong = createElement( 'strong' );
+	appendNode( strong, div_4 );
+	appendNode( createText( "up" ), strong );
+	appendNode( createText( "/" ), div_4 );
+	var strong_1 = createElement( 'strong' );
+	appendNode( strong_1, div_4 );
+	appendNode( createText( "down" ), strong_1 );
+	appendNode( createText( " to navigate; " ), div_4 );
+	var strong_2 = createElement( 'strong' );
+	appendNode( strong_2, div_4 );
+	appendNode( createText( "enter" ), strong_2 );
+	appendNode( createText( " to select; " ), div_4 );
+	var strong_3 = createElement( 'strong' );
+	appendNode( strong_3, div_4 );
+	appendNode( createText( "esc" ), strong_3 );
+	appendNode( createText( " to dismiss" ), div_4 );
+	appendNode( createText( "\n      " ), div_3 );
+	var input = createElement( 'input' );
+	appendNode( input, div_3 );
+	input.type = "text";
+	input.autofocus = '';
+	input.id = "qs-inp";
+	input.placeholder = input_placeholder_value = state.placeholder;
+
+	function input_input_handler () {
+		input_updating = true;
+		component._set({ value: input.value });
+		input_updating = false;
+	}
+
+	addEventListener( input, 'input', input_input_handler );
+
+	function keypress_handler ( event ) {
+		component.switchCurrentActive(event);
+	}
+
+	addEventListener( input, 'keypress', keypress_handler );
+
+	function keydown_handler ( event ) {
+		component.changeSelected(event);
+	}
+
+	addEventListener( input, 'keydown', keydown_handler );
+
+	input.value = state.value ;
+
+	appendNode( createText( "\n      " ), div_3 );
+	var ul = createElement( 'ul' );
+	appendNode( ul, div_3 );
+	ul.id = "qs-options";
+	var each_block_value = state.sortedOptions;
+
+	var each_block_iterations = [];
+
+	for ( var i = 0; i < each_block_value.length; i += 1 ) {
+		each_block_iterations[i] = create_each_block( state, each_block_value, each_block_value[i], i, component );
+		each_block_iterations[i].mount( ul, null );
+	}
+
+	return {
+		mount: function ( target, anchor ) {
+			insertNode( div, target, anchor );
+		},
+
+		update: function ( changed, state ) {
+			if ( input_placeholder_value !== ( input_placeholder_value = state.placeholder ) ) {
+				input.placeholder = input_placeholder_value;
+			}
+
+			if ( !input_updating ) {
+				input.value = state.value ;
+			}
+
+			var each_block_value = state.sortedOptions;
+
+			if ( 'selected' in changed || 'sortedOptions' in changed ) {
+				for ( var i = 0; i < each_block_value.length; i += 1 ) {
+					if ( each_block_iterations[i] ) {
+						each_block_iterations[i].update( changed, state, each_block_value, each_block_value[i], i );
+					} else {
+						each_block_iterations[i] = create_each_block( state, each_block_value, each_block_value[i], i, component );
+						each_block_iterations[i].mount( ul, null );
+					}
+				}
+
+				destroyEach( each_block_iterations, true, each_block_value.length );
+				each_block_iterations.length = each_block_value.length;
+			}
+		},
+
+		destroy: function ( detach ) {
+			removeEventListener( div_2, 'click', click_handler );
+			removeEventListener( input, 'input', input_input_handler );
+			removeEventListener( input, 'keypress', keypress_handler );
+			removeEventListener( input, 'keydown', keydown_handler );
+
+			destroyEach( each_block_iterations, false, 0 );
+
+			if ( detach ) {
+				detachNode( div );
+			}
+		}
+	};
+}
+
+function click_handler ( event ) {
+	var component = this._svelte.component;
+	var each_block_value = this._svelte.each_block_value, index = this._svelte.index, option = each_block_value[index];
+	component.run(option);
+}
+
 function QuickSwitcher ( options ) {
 	options = options || {};
-	this._state = Object.assign( template.data(), options.data );
+	this._state = assign( template.data(), options.data );
 	recompute( this._state, this._state, {}, true );
-	
+
 	this._observers = {
 		pre: Object.create( null ),
 		post: Object.create( null )
 	};
-	
+
 	this._handlers = Object.create( null );
-	
-	this._root = options._root;
+
+	this._root = options._root || this;
 	this._yield = options._yield;
-	
+
 	this._torndown = false;
-	if ( !addedCss ) addCss();
-	
-	this._fragment = renderMainFragment( this._state, this );
+	if ( !document.getElementById( "svelte-4204653278-style" ) ) add_css();
+
+	this._fragment = create_main_fragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
-	
+
 	if ( options._root ) {
-		options._root._renderHooks.push({ fn: template.oncreate, context: this });
+		options._root._renderHooks.push( template.oncreate.bind( this ) );
 	} else {
 		template.oncreate.call( this );
 	}
 }
 
-QuickSwitcher.prototype = template.methods;
-
-QuickSwitcher.prototype.get = get;
-QuickSwitcher.prototype.fire = fire;
-QuickSwitcher.prototype.observe = observe;
-QuickSwitcher.prototype.on = on;
-QuickSwitcher.prototype.set = set;
-QuickSwitcher.prototype._flush = _flush;
+assign( QuickSwitcher.prototype, template.methods, {
+ 	get: get,
+ 	fire: fire,
+ 	observe: observe,
+ 	on: on,
+ 	set: set,
+ 	_flush: _flush
+ });
 
 QuickSwitcher.prototype._set = function _set ( newState ) {
 	var oldState = this._state;
-	this._state = Object.assign( {}, oldState, newState );
+	this._state = assign( {}, oldState, newState );
 	recompute( this._state, newState, oldState, false )
-	
 	dispatchObservers( this, this._observers.pre, newState, oldState );
-	if ( this._fragment ) this._fragment.update( newState, this._state );
+	this._fragment.update( newState, this._state );
 	dispatchObservers( this, this._observers.post, newState, oldState );
 };
 
 QuickSwitcher.prototype.teardown = QuickSwitcher.prototype.destroy = function destroy ( detach ) {
 	this.fire( 'destroy' );
 
-	this._fragment.teardown( detach !== false );
+	this._fragment.destroy( detach !== false );
 	this._fragment = null;
 
 	this._state = {};
 	this._torndown = true;
 };
 
-function createElement( name ) {
+function createElement ( name ) {
 	return document.createElement( name );
 }
 
-function setAttribute( node, attribute, value ) {
-	node.setAttribute ( attribute, value );
-}
-
-function detachNode( node ) {
-	node.parentNode.removeChild( node );
-}
-
-function insertNode( node, target, anchor ) {
+function insertNode ( node, target, anchor ) {
 	target.insertBefore( node, anchor );
 }
 
-function appendNode( node, target ) {
+function setAttribute ( node, attribute, value ) {
+	node.setAttribute( attribute, value );
+}
+
+function detachNode ( node ) {
+	node.parentNode.removeChild( node );
+}
+
+function appendNode ( node, target ) {
 	target.appendChild( node );
 }
 
-function createText( data ) {
+function createText ( data ) {
 	return document.createTextNode( data );
 }
 
-function addEventListener( node, event, handler ) {
-	node.addEventListener ( event, handler, false );
+function addEventListener ( node, event, handler ) {
+	node.addEventListener( event, handler, false );
 }
 
-function removeEventListener( node, event, handler ) {
-	node.removeEventListener ( event, handler, false );
+function removeEventListener ( node, event, handler ) {
+	node.removeEventListener( event, handler, false );
 }
 
-function createComment() {
-	return document.createComment( '' );
-}
-
-function teardownEach( iterations, detach, start ) {
-	for ( var i = ( start || 0 ); i < iterations.length; i += 1 ) {
-		iterations[i].teardown( detach );
+function destroyEach ( iterations, detach, start ) {
+	for ( var i = start; i < iterations.length; i += 1 ) {
+		if ( iterations[i] ) iterations[i].destroy( detach );
 	}
 }
 
-function differs( a, b ) {
+function createComment () {
+	return document.createComment( '' );
+}
+
+function differs ( a, b ) {
 	return ( a !== b ) || ( a && ( typeof a === 'object' ) || ( typeof a === 'function' ) );
 }
 
-function dispatchObservers( component, group, newState, oldState ) {
+function assign ( target ) {
+	for ( var i = 1; i < arguments.length; i += 1 ) {
+		var source = arguments[i];
+		for ( var k in source ) target[k] = source[k];
+	}
+
+	return target;
+}
+
+function dispatchObservers ( component, group, newState, oldState ) {
 	for ( var key in group ) {
 		if ( !( key in newState ) ) continue;
 
 		var newValue = newState[ key ];
 		var oldValue = oldState[ key ];
 
-		if ( newValue === oldValue && typeof newValue !== 'object' ) continue;
+		if ( differs( newValue, oldValue ) ) {
+			var callbacks = group[ key ];
+			if ( !callbacks ) continue;
 
-		var callbacks = group[ key ];
-		if ( !callbacks ) continue;
+			for ( var i = 0; i < callbacks.length; i += 1 ) {
+				var callback = callbacks[i];
+				if ( callback.__calling ) continue;
 
-		for ( var i = 0; i < callbacks.length; i += 1 ) {
-			var callback = callbacks[i];
-			if ( callback.__calling ) continue;
-
-			callback.__calling = true;
-			callback.call( component, newValue, oldValue );
-			callback.__calling = false;
+				callback.__calling = true;
+				callback.call( component, newValue, oldValue );
+				callback.__calling = false;
+			}
 		}
 	}
 }
 
-function get( key ) {
+function get ( key ) {
 	return key ? this._state[ key ] : this._state;
 }
 
-function fire( eventName, data ) {
+function fire ( eventName, data ) {
 	var handlers = eventName in this._handlers && this._handlers[ eventName ].slice();
 	if ( !handlers ) return;
 
@@ -510,8 +464,8 @@ function fire( eventName, data ) {
 	}
 }
 
-function observe( key, callback, options ) {
-	var group = ( options && options.defer ) ? this._observers.pre : this._observers.post;
+function observe ( key, callback, options ) {
+	var group = ( options && options.defer ) ? this._observers.post : this._observers.pre;
 
 	( group[ key ] || ( group[ key ] = [] ) ).push( callback );
 
@@ -529,7 +483,7 @@ function observe( key, callback, options ) {
 	};
 }
 
-function on( eventName, handler ) {
+function on ( eventName, handler ) {
 	if ( eventName === 'teardown' ) return this.on( 'destroy', handler );
 
 	var handlers = this._handlers[ eventName ] || ( this._handlers[ eventName ] = [] );
@@ -543,17 +497,16 @@ function on( eventName, handler ) {
 	};
 }
 
-function set( newState ) {
-	this._set( newState );
-	( this._root || this )._flush();
+function set ( newState ) {
+	this._set( assign( {}, newState ) );
+	this._root._flush();
 }
 
-function _flush() {
+function _flush () {
 	if ( !this._renderHooks ) return;
 
 	while ( this._renderHooks.length ) {
-		var hook = this._renderHooks.pop();
-		hook.fn.call( hook.context );
+		this._renderHooks.pop()();
 	}
 }
 
