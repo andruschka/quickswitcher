@@ -1,8 +1,8 @@
 'use strict';
 
 function recompute ( state, newState, oldState, isInitial ) {
-	if ( isInitial || ( 'options' in newState && differs( state.options, oldState.options ) ) || ( 'value' in newState && differs( state.value, oldState.value ) ) ) {
-		state.sortedOptions = newState.sortedOptions = template.computed.sortedOptions( state.options, state.value );
+	if ( isInitial || ( 'options' in newState && differs( state.options, oldState.options ) ) || ( 'value' in newState && differs( state.value, oldState.value ) ) || ( 'defaultOption' in newState && differs( state.defaultOption, oldState.defaultOption ) ) ) {
+		state.sortedOptions = newState.sortedOptions = template.computed.sortedOptions( state.options, state.value, state.defaultOption );
 	}
 }
 
@@ -19,6 +19,7 @@ var template = (function () {
         open: false,
         value: '',
         options: [],
+        defaultOption: null,
         run: defaultRun,
         placeholder: '',
         active: null,
@@ -52,11 +53,13 @@ var template = (function () {
     },
 
     computed: {
-      sortedOptions: function (options, value) {
+      sortedOptions: function (options, value, defaultOption) {
         var rgx = new RegExp(value, 'ig')
-        return options.filter(function (opt) {
+        var sortedOpts = options.filter(function (opt) {
           return (rgx.test(opt.value) || rgx.test(opt.title))
         })
+        if (sortedOpts.length > 0) return sortedOpts
+        else return [defaultOption(value)]
       },
     },
 
@@ -96,8 +99,8 @@ var template = (function () {
 
 function add_css () {
 	var style = createElement( 'style' );
-	style.id = "svelte-4204653278-style";
-	style.textContent = "\n  [svelte-4204653278]#qs-modal, [svelte-4204653278] #qs-modal {\n    position: fixed;\n    left: 0;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 101;\n  }\n  [svelte-4204653278]#qs-bg, [svelte-4204653278] #qs-bg {\n    position: absolute;\n    left: 0px;\n    top: 0px;\n    height: 100%;\n    width: 100%;\n    background-color: rgba(0,0,0,.7);\n    filter: blur(5px);\n    z-index: 100;\n  }\n  [svelte-4204653278]#qs-content-wrap, [svelte-4204653278] #qs-content-wrap {\n    z-index: 102;\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    padding-top: 30vh;\n  }\n  [svelte-4204653278]#qs-content, [svelte-4204653278] #qs-content {\n    max-width: 600px;\n    width: 460px;\n    box-shadow: 0 1px 10px rgba(0,0,0,.5);\n    background: #FFF;\n    border-radius: 8px;\n    padding: .75rem 1rem;\n    margin: 0 auto;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n  }\n  [svelte-4204653278]#qs-jumper-help, [svelte-4204653278] #qs-jumper-help {\n    color: #A0A0A2;\n    font-size: .8rem;\n    margin-bottom: 8px;\n    \n  }\n  [svelte-4204653278]#qs-inp, [svelte-4204653278] #qs-inp {\n    width: 100%;\n    font-size: 2rem;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n    font-weight: 700;\n    padding: 1rem;\n    border: 1px solid #A0A0A2!important;\n    border-radius: 6px;\n    box-shadow: none!important;\n    color: #2C2D30;\n    margin-bottom: 1rem;\n  }\n  [svelte-4204653278]#qs-options, [svelte-4204653278] #qs-options {\n    margin-top: 10px;\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n  [svelte-4204653278]#qs-options li, [svelte-4204653278] #qs-options li {\n    text-decoration: none;\n    outline: 0;\n    background: 0 0;\n    display: block;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    font-size: 16px;\n    line-height: 30px;\n    border-radius: 6px;\n    font-weight: 700;\n    margin: 0;\n    padding: 0 .5rem 0 .75rem;\n    position: relative;\n    border: 1px solid #fff;\n    color: #000;\n  }\n  [svelte-4204653278]#qs-options li.active, [svelte-4204653278] #qs-options li.active  {\n    border-color: steelblue;\n    background-color: steelblue;\n    color: #fff;\n  }\n  [svelte-4204653278]#qs-options li:hover, [svelte-4204653278] #qs-options li:hover  {\n    border-color: steelblue;\n  }\n  [svelte-4204653278]#qs-options li:hover, [svelte-4204653278] #qs-options li:hover {\n    cursor: pointer;\n  }\n";
+	style.id = "svelte-1964225997-style";
+	style.textContent = "\n  [svelte-1964225997]#qs-modal, [svelte-1964225997] #qs-modal {\n    position: fixed;\n    left: 0;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 101;\n  }\n  [svelte-1964225997]#qs-bg, [svelte-1964225997] #qs-bg {\n    position: absolute;\n    left: 0px;\n    top: 0px;\n    height: 100%;\n    width: 100%;\n    background-color: rgba(0,0,0,.7);\n    filter: blur(5px);\n    z-index: 100;\n  }\n  [svelte-1964225997]#qs-content-wrap, [svelte-1964225997] #qs-content-wrap {\n    z-index: 102;\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    padding-top: 30vh;\n  }\n  [svelte-1964225997]#qs-content, [svelte-1964225997] #qs-content {\n    max-width: 600px;\n    width: 460px;\n    box-shadow: 0 1px 10px rgba(0,0,0,.5);\n    background: #FFF;\n    border-radius: 8px;\n    padding: .75rem 1rem;\n    margin: 0 auto;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n  }\n  [svelte-1964225997]#qs-jumper-help, [svelte-1964225997] #qs-jumper-help {\n    color: #A0A0A2;\n    font-size: .8rem;\n    margin-bottom: 8px;\n    \n  }\n  [svelte-1964225997]#qs-inp, [svelte-1964225997] #qs-inp {\n    width: 100%;\n    font-size: 2rem;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n    font-weight: 700;\n    padding: 1rem;\n    border: 1px solid #A0A0A2!important;\n    border-radius: 6px;\n    box-shadow: none!important;\n    color: #2C2D30;\n    margin-bottom: 1rem;\n  }\n  [svelte-1964225997]#qs-options, [svelte-1964225997] #qs-options {\n    margin-top: 10px;\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n  [svelte-1964225997]#qs-options li, [svelte-1964225997] #qs-options li {\n    text-decoration: none;\n    outline: 0;\n    background: 0 0;\n    display: block;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    font-size: 16px;\n    line-height: 30px;\n    border-radius: 6px;\n    font-weight: 700;\n    margin: 0;\n    padding: 0 .5rem 0 .75rem;\n    position: relative;\n    border: 1px solid #fff;\n    color: #000;\n  }\n  [svelte-1964225997]#qs-options li.active, [svelte-1964225997] #qs-options li.active  {\n    border-color: steelblue;\n    background-color: steelblue;\n    color: #fff;\n  }\n  [svelte-1964225997]#qs-options li:hover, [svelte-1964225997] #qs-options li:hover  {\n    border-color: steelblue;\n  }\n  [svelte-1964225997]#qs-options li:hover, [svelte-1964225997] #qs-options li:hover {\n    cursor: pointer;\n  }\n";
 	appendNode( style, document.head );
 }
 
@@ -186,7 +189,7 @@ function create_if_block ( state, component ) {
 	var input_placeholder_value, input_updating = false;
 
 	var div = createElement( 'div' );
-	setAttribute( div, 'svelte-4204653278', '' );
+	setAttribute( div, 'svelte-1964225997', '' );
 	div.id = "qs-modal";
 	var div_1 = createElement( 'div' );
 	appendNode( div_1, div );
@@ -342,7 +345,7 @@ function QuickSwitcher ( options ) {
 	this._yield = options._yield;
 
 	this._torndown = false;
-	if ( !document.getElementById( "svelte-4204653278-style" ) ) add_css();
+	if ( !document.getElementById( "svelte-1964225997-style" ) ) add_css();
 
 	this._fragment = create_main_fragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
