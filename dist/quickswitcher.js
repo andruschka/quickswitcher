@@ -16,7 +16,7 @@ var template = (function () {
   return {
     data: function () {
       return {
-        open: false,
+        isOpen: false,
         value: '',
         options: [],
         defaultOption: null,
@@ -32,11 +32,7 @@ var template = (function () {
       window.onkeyup = function (e) {
         // open
         if (e.ctrlKey && e.keyCode === 75) {
-          if (!_this.get(open)) {
-            _this.set({ open: true })
-            document.getElementById('qs-inp').focus()
-          }
-
+          _this.open()
           // close
         } else if (e.keyCode === 27) {
           _this.close()
@@ -64,8 +60,14 @@ var template = (function () {
     },
 
     methods: {
+      open: function () {
+        if (!this.get('isOpen')) {
+          this.set({ isOpen: true })
+          document.getElementById('qs-inp').focus()
+        }
+      },
       close: function () {
-        this.set({ open: false, value: '', selected: 0 })
+        this.set({ isOpen: false, value: '', selected: 0 })
       },
       run: function (opt) {
         this.get('run').call(null, opt.value)
@@ -99,13 +101,13 @@ var template = (function () {
 
 function add_css () {
 	var style = createElement( 'style' );
-	style.id = "svelte-1964225997-style";
-	style.textContent = "\n  [svelte-1964225997]#qs-modal, [svelte-1964225997] #qs-modal {\n    position: fixed;\n    left: 0;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 101;\n  }\n  [svelte-1964225997]#qs-bg, [svelte-1964225997] #qs-bg {\n    position: absolute;\n    left: 0px;\n    top: 0px;\n    height: 100%;\n    width: 100%;\n    background-color: rgba(0,0,0,.7);\n    filter: blur(5px);\n    z-index: 100;\n  }\n  [svelte-1964225997]#qs-content-wrap, [svelte-1964225997] #qs-content-wrap {\n    z-index: 102;\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    padding-top: 30vh;\n  }\n  [svelte-1964225997]#qs-content, [svelte-1964225997] #qs-content {\n    max-width: 600px;\n    width: 460px;\n    box-shadow: 0 1px 10px rgba(0,0,0,.5);\n    background: #FFF;\n    border-radius: 8px;\n    padding: .75rem 1rem;\n    margin: 0 auto;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n  }\n  [svelte-1964225997]#qs-jumper-help, [svelte-1964225997] #qs-jumper-help {\n    color: #A0A0A2;\n    font-size: .8rem;\n    margin-bottom: 8px;\n    \n  }\n  [svelte-1964225997]#qs-inp, [svelte-1964225997] #qs-inp {\n    width: 100%;\n    font-size: 2rem;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n    font-weight: 700;\n    padding: 1rem;\n    border: 1px solid #A0A0A2!important;\n    border-radius: 6px;\n    box-shadow: none!important;\n    color: #2C2D30;\n    margin-bottom: 1rem;\n  }\n  [svelte-1964225997]#qs-options, [svelte-1964225997] #qs-options {\n    margin-top: 10px;\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n  [svelte-1964225997]#qs-options li, [svelte-1964225997] #qs-options li {\n    text-decoration: none;\n    outline: 0;\n    background: 0 0;\n    display: block;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    font-size: 16px;\n    line-height: 30px;\n    border-radius: 6px;\n    font-weight: 700;\n    margin: 0;\n    padding: 0 .5rem 0 .75rem;\n    position: relative;\n    border: 1px solid #fff;\n    color: #000;\n  }\n  [svelte-1964225997]#qs-options li.active, [svelte-1964225997] #qs-options li.active  {\n    border-color: steelblue;\n    background-color: steelblue;\n    color: #fff;\n  }\n  [svelte-1964225997]#qs-options li:hover, [svelte-1964225997] #qs-options li:hover  {\n    border-color: steelblue;\n  }\n  [svelte-1964225997]#qs-options li:hover, [svelte-1964225997] #qs-options li:hover {\n    cursor: pointer;\n  }\n";
+	style.id = "svelte-2157270604-style";
+	style.textContent = "\n  [svelte-2157270604]#qs-modal, [svelte-2157270604] #qs-modal {\n    position: fixed;\n    left: 0;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 101;\n  }\n  [svelte-2157270604]#qs-bg, [svelte-2157270604] #qs-bg {\n    position: absolute;\n    left: 0px;\n    top: 0px;\n    height: 100%;\n    width: 100%;\n    background-color: rgba(0,0,0,.7);\n    filter: blur(5px);\n    z-index: 100;\n  }\n  [svelte-2157270604]#qs-content-wrap, [svelte-2157270604] #qs-content-wrap {\n    z-index: 102;\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    padding-top: 30vh;\n  }\n  [svelte-2157270604]#qs-content, [svelte-2157270604] #qs-content {\n    max-width: 500px;\n    box-shadow: 0 1px 10px rgba(0,0,0,.5);\n    background: #FFF;\n    border-radius: 8px;\n    padding: .75rem 1rem;\n    margin: 0 auto;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n  }\n  [svelte-2157270604]#qs-jumper-help, [svelte-2157270604] #qs-jumper-help {\n    color: #A0A0A2;\n    font-size: .8rem;\n    margin-bottom: 8px;\n    \n  }\n  [svelte-2157270604]#qs-inp, [svelte-2157270604] #qs-inp {\n    width: 100%;\n    font-size: 2rem;\n    font-family: Slack-Lato,appleLogo,sans-serif;\n    font-weight: 700;\n    padding: 1rem;\n    border: 1px solid #A0A0A2!important;\n    border-radius: 6px;\n    box-shadow: none!important;\n    color: #2C2D30;\n    margin-bottom: 1rem;\n  }\n  [svelte-2157270604]#qs-options, [svelte-2157270604] #qs-options {\n    margin-top: 10px;\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n  [svelte-2157270604]#qs-options li, [svelte-2157270604] #qs-options li {\n    text-decoration: none;\n    outline: 0;\n    background: 0 0;\n    display: block;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    font-size: 16px;\n    line-height: 30px;\n    border-radius: 6px;\n    font-weight: 700;\n    margin: 0;\n    padding: 0 .5rem 0 .75rem;\n    position: relative;\n    border: 1px solid #fff;\n    color: #000;\n  }\n  [svelte-2157270604]#qs-options li.active, [svelte-2157270604] #qs-options li.active  {\n    border-color: steelblue;\n    background-color: steelblue;\n    color: #fff;\n  }\n  [svelte-2157270604]#qs-options li:hover, [svelte-2157270604] #qs-options li:hover  {\n    border-color: steelblue;\n  }\n  [svelte-2157270604]#qs-options li:hover, [svelte-2157270604] #qs-options li:hover {\n    cursor: pointer;\n  }\n\n  @media(max-width:768px) {\n    [svelte-2157270604]#qs-content-wrap, [svelte-2157270604] #qs-content-wrap {\n      padding-top: 0px;\n    }\n    [svelte-2157270604]#qs-content, [svelte-2157270604] #qs-content {\n      border-radius: 0px;\n    }\n  }\n";
 	appendNode( style, document.head );
 }
 
 function create_main_fragment ( state, component ) {
-	var if_block = (state.open) && create_if_block( state, component );
+	var if_block = (state.isOpen) && create_if_block( state, component );
 
 	var if_block_anchor = createComment();
 
@@ -116,7 +118,7 @@ function create_main_fragment ( state, component ) {
 		},
 
 		update: function ( changed, state ) {
-			if ( state.open ) {
+			if ( state.isOpen ) {
 				if ( if_block ) {
 					if_block.update( changed, state );
 				} else {
@@ -189,7 +191,7 @@ function create_if_block ( state, component ) {
 	var input_placeholder_value, input_updating = false;
 
 	var div = createElement( 'div' );
-	setAttribute( div, 'svelte-1964225997', '' );
+	setAttribute( div, 'svelte-2157270604', '' );
 	div.id = "qs-modal";
 	var div_1 = createElement( 'div' );
 	appendNode( div_1, div );
@@ -345,7 +347,7 @@ function QuickSwitcher ( options ) {
 	this._yield = options._yield;
 
 	this._torndown = false;
-	if ( !document.getElementById( "svelte-1964225997-style" ) ) add_css();
+	if ( !document.getElementById( "svelte-2157270604-style" ) ) add_css();
 
 	this._fragment = create_main_fragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
