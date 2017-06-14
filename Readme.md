@@ -1,11 +1,11 @@
 # Quickswitcher 🚀
-Quickly switch between routes with `ctrl + k` - Slack style.
+Quickly switch between routes or execute search with `ctrl + k` - (just like in slack).
 Quickswitcher has no dependencies 😇
 
-## Integration
-The script-tag way
+## Integration Examples
+The CDN way
 ```html
-<script src="node_modules/dist/quickswitcher.browser.js"></script>
+<script src="https://unpkg.com/quickswitcher"></script>
 <script>
   var qs = new QuickSwitcher({
     target: document.querySelector('#qs-root'),
@@ -17,7 +17,7 @@ The script-tag way
         },
         {
           value: '/dashboard/trackings',
-          title: 'Sendungen',
+          title: 'Trackings',
         },
       ],
     },
@@ -38,9 +38,15 @@ var qs = new QuickSwitcher({
       },
       {
         value: '/dashboard/trackings',
-        title: 'Sendungen',
+        title: 'Trackings',
       },
     ],
+    defaultOption: (input) => { // will run search if no of the above options matches
+      return {
+        value: `/dashboard/trackings?search=${input}`,
+        title: `Search for "${input}" in Trackings.`
+      }
+    },
     run: function (newPath) { // use custom run Function, here with pageJS router
       page(newPath)
     },
@@ -64,6 +70,9 @@ That's it 😎.
       },
       // ...
     ],
+    defaultOption: (inputVal) => {}, // (optional) provide a dynamic default option
+    // (will be run if no one of the options are matches the input -
+    // useful if you want to run a search then)
     run: Function, // (optional) if you want to use a js router or a custom function to switch routes
   }
 }

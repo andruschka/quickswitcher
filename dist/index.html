@@ -21,8 +21,14 @@
               title: 'Ereignisse',
             },
           ],
+          defaultOption: (str) => {
+            return {
+              value: `/dashboard/trackings?searchInput=${str}`,
+              title: `Nach Tracking "${str}" suchen.`
+            }
+          },
           run: function (str) {
-            console.log(window.location.href.replace(window.location.pathname, str))
+            console.log(str)
           }
         }
       })

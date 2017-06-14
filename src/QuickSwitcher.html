@@ -30,6 +30,7 @@
         open: false,
         value: '',
         options: [],
+        defaultOption: null,
         run: defaultRun,
         placeholder: '',
         active: null,
@@ -63,11 +64,13 @@
     },
 
     computed: {
-      sortedOptions: function (options, value) {
+      sortedOptions: function (options, value, defaultOption) {
         var rgx = new RegExp(value, 'ig')
-        return options.filter(function (opt) {
+        var sortedOpts = options.filter(function (opt) {
           return (rgx.test(opt.value) || rgx.test(opt.title))
         })
+        if (sortedOpts.length > 0) return sortedOpts
+        else return [defaultOption(value)]
       },
     },
 
