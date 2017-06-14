@@ -1,4 +1,4 @@
-{{#if open}}
+{{#if isOpen}}
   <div id="qs-modal">
     <div id="qs-bg"></div>
     <div id="qs-content-wrap" on:click="close()">
@@ -27,7 +27,7 @@
   export default {
     data: function () {
       return {
-        open: false,
+        isOpen: false,
         value: '',
         options: [],
         defaultOption: null,
@@ -43,11 +43,7 @@
       window.onkeyup = function (e) {
         // open
         if (e.ctrlKey && e.keyCode === 75) {
-          if (!_this.get(open)) {
-            _this.set({ open: true })
-            document.getElementById('qs-inp').focus()
-          }
-
+          _this.open()
           // close
         } else if (e.keyCode === 27) {
           _this.close()
@@ -75,8 +71,14 @@
     },
 
     methods: {
+      open: function () {
+        if (!this.get('isOpen')) {
+          this.set({ isOpen: true })
+          document.getElementById('qs-inp').focus()
+        }
+      },
       close: function () {
-        this.set({ open: false, value: '', selected: 0 })
+        this.set({ isOpen: false, value: '', selected: 0 })
       },
       run: function (opt) {
         this.get('run').call(null, opt.value)
