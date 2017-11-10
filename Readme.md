@@ -2,6 +2,10 @@
 Quickly switch between routes or execute search with `ctrl + k` - (just like in slack).
 Quickswitcher has no dependencies 😇
 
+## Usage with keymaster
+You can also use 'keymaster' if you want osx cmd supprt.
+Just integrate `https://github.com/madrobby/keymaster` into your project.
+
 ## Integration Examples
 The CDN way
 ```html
