@@ -43,11 +43,13 @@
       if (window.key) {
         window.key('⌘+k, ctrl+k', function () {
           _this.open()
+          return false
         })
 
         window.onkeyup = function (e) {
           if (e.keyCode === 27) {
             _this.close()
+            return false
           }
         }
 
@@ -56,9 +58,11 @@
           // open
           if (e.ctrlKey && e.keyCode === 75) {
             _this.open()
+            return false
             // close
           } else if (e.keyCode === 27) {
             _this.close()
+            return false
           }
         }
       }
