@@ -40,13 +40,26 @@
 
     oncreate: function () {
       var _this = this
-      window.onkeyup = function (e) {
-        // open
-        if (e.ctrlKey && e.keyCode === 75) {
+      if (window.key) {
+        window.key('⌘+k, ctrl+k', function () {
           _this.open()
-          // close
-        } else if (e.keyCode === 27) {
-          _this.close()
+        })
+
+        window.onkeyup = function (e) {
+          if (e.keyCode === 27) {
+            _this.close()
+          }
+        }
+
+      } else {
+        window.onkeyup = function (e) {
+          // open
+          if (e.ctrlKey && e.keyCode === 75) {
+            _this.open()
+            // close
+          } else if (e.keyCode === 27) {
+            _this.close()
+          }
         }
       }
     },
