@@ -1,6 +1,6 @@
 {
   "name": "quickswitcher",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Quickly switch between routes - Slack style",
   "main": "dist/quickswitcher.js",
   "repository": {
