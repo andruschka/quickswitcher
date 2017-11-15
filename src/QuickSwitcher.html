@@ -48,20 +48,21 @@
         })
       }
 
-      window.onkeyup = function (e) {
+      window.onkeydown = function (e) {
         // open
         if (e.ctrlKey && e.keyCode === 75) {
           e.preventDefault()
           _this.open()
+          return false
           // close
         } else if (e.keyCode === 27) {
           if (e.srcElement.id === 'qs-inp') {
             e.preventDefault()
           }
           _this.close()
+          return false
         }
-
-        return false
+        return true
       }
     },
 
