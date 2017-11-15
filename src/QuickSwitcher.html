@@ -40,31 +40,28 @@
 
     oncreate: function () {
       var _this = this
-      if (window.key) {
-        window.key('⌘+k, ctrl+k', function () {
+      if (window.key) { // support for keymaster
+        window.key('⌘+k', function (evt) {
           _this.open()
+          evt.preventDefault()
           return false
         })
+      }
 
-        window.onkeyup = function (e) {
-          if (e.keyCode === 27) {
-            _this.close()
-            return false
+      window.onkeyup = function (e) {
+        // open
+        if (e.ctrlKey && e.keyCode === 75) {
+          e.preventDefault()
+          _this.open()
+          // close
+        } else if (e.keyCode === 27) {
+          if (e.srcElement.id === 'qs-inp') {
+            e.preventDefault()
           }
+          _this.close()
         }
 
-      } else {
-        window.onkeyup = function (e) {
-          // open
-          if (e.ctrlKey && e.keyCode === 75) {
-            _this.open()
-            return false
-            // close
-          } else if (e.keyCode === 27) {
-            _this.close()
-            return false
-          }
-        }
+        return false
       }
     },
 
