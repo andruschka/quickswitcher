@@ -76,21 +76,21 @@ function oncreate() {
   var _this = this
   if (window.key) { // support for keymaster
     window.key('⌘+k', function (evt) {
-      _this.open()
       evt.preventDefault()
+      _this.open()
       return false
     })
   }
 
   window.onkeydown = function (e) {
     // open
-    if (e.ctrlKey && e.keyCode === 75) {
+    if (e.ctrlKey && e.keyCode === 75) { // ctrl k
       e.preventDefault()
       _this.open()
       return false
       // close
-    } else if (e.keyCode === 27) {
-      if (e.srcElement.id === 'qs-inp') {
+    } else if (e.keyCode === 27) { // escape
+      if (e.srcElement && e.srcElement.id === 'qs-inp') {
         e.preventDefault()
       }
       _this.close()
@@ -101,13 +101,13 @@ function oncreate() {
 };
 
 function encapsulateStyles(node) {
-	setAttribute(node, "svelte-2012764796", "");
+	setAttribute(node, "svelte-1297741814", "");
 }
 
 function add_css() {
 	var style = createElement("style");
-	style.id = 'svelte-2012764796-style';
-	style.textContent = "[svelte-2012764796]#qs-modal,[svelte-2012764796] #qs-modal{position:fixed;left:0;top:0;height:100%;width:100%;z-index:101}[svelte-2012764796]#qs-bg,[svelte-2012764796] #qs-bg{position:absolute;left:0px;top:0px;height:100%;width:100%;background-color:rgba(0,0,0,.7);filter:blur(5px);z-index:100}[svelte-2012764796]#qs-content-wrap,[svelte-2012764796] #qs-content-wrap{z-index:102;position:absolute;top:0px;left:0px;width:100%;height:100%;padding-top:30vh}[svelte-2012764796]#qs-content,[svelte-2012764796] #qs-content{max-width:500px;box-shadow:0 1px 10px rgba(0,0,0,.5);background:#FFF;border-radius:8px;padding:.75rem 1rem;margin:0 auto;font-family:Slack-Lato,appleLogo,sans-serif}[svelte-2012764796]#qs-jumper-help,[svelte-2012764796] #qs-jumper-help{color:#A0A0A2;font-size:.8rem;margin-bottom:8px}[svelte-2012764796]#qs-inp,[svelte-2012764796] #qs-inp{width:100%;font-size:2rem;font-family:Slack-Lato,appleLogo,sans-serif;font-weight:700;padding:1rem;border:1px solid #A0A0A2!important;border-radius:6px;box-shadow:none!important;color:#2C2D30;margin-bottom:1rem}[svelte-2012764796]#qs-options,[svelte-2012764796] #qs-options{margin-top:10px;padding-left:0px;padding-right:0px}[svelte-2012764796]#qs-options li,[svelte-2012764796] #qs-options li{text-decoration:none;outline:0;background:0 0;display:block;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:16px;line-height:30px;border-radius:6px;font-weight:700;margin:0;padding:0 .5rem 0 .75rem;position:relative;border:1px solid #fff;color:#000}[svelte-2012764796]#qs-options li.active,[svelte-2012764796] #qs-options li.active{border-color:steelblue;background-color:steelblue;color:#fff}[svelte-2012764796]#qs-options li:hover,[svelte-2012764796] #qs-options li:hover{border-color:steelblue}[svelte-2012764796]#qs-options li:hover,[svelte-2012764796] #qs-options li:hover{cursor:pointer}@media(max-width:768px){[svelte-2012764796]#qs-content-wrap,[svelte-2012764796] #qs-content-wrap{padding-top:0px}[svelte-2012764796]#qs-content,[svelte-2012764796] #qs-content{border-radius:0px}}";
+	style.id = 'svelte-1297741814-style';
+	style.textContent = "[svelte-1297741814]#qs-modal,[svelte-1297741814] #qs-modal{position:fixed;left:0;top:0;height:100%;width:100%;z-index:101}[svelte-1297741814]#qs-bg,[svelte-1297741814] #qs-bg{position:absolute;left:0px;top:0px;height:100%;width:100%;background-color:rgba(0,0,0,.7);filter:blur(5px);z-index:100}[svelte-1297741814]#qs-content-wrap,[svelte-1297741814] #qs-content-wrap{z-index:102;position:absolute;top:0px;left:0px;width:100%;height:100%;padding-top:30vh}[svelte-1297741814]#qs-content,[svelte-1297741814] #qs-content{max-width:500px;box-shadow:0 1px 10px rgba(0,0,0,.5);background:#FFF;border-radius:8px;padding:.75rem 1rem;margin:0 auto;font-family:Slack-Lato,appleLogo,sans-serif}[svelte-1297741814]#qs-jumper-help,[svelte-1297741814] #qs-jumper-help{color:#A0A0A2;font-size:.8rem;margin-bottom:8px}[svelte-1297741814]#qs-inp,[svelte-1297741814] #qs-inp{width:100%;font-size:2rem;font-family:Slack-Lato,appleLogo,sans-serif;font-weight:700;padding:1rem;border:1px solid #A0A0A2!important;border-radius:6px;box-shadow:none!important;color:#2C2D30;margin-bottom:1rem}[svelte-1297741814]#qs-options,[svelte-1297741814] #qs-options{margin-top:10px;padding-left:0px;padding-right:0px}[svelte-1297741814]#qs-options li,[svelte-1297741814] #qs-options li{text-decoration:none;outline:0;background:0 0;display:block;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:16px;line-height:30px;border-radius:6px;font-weight:700;margin:0;padding:0 .5rem 0 .75rem;position:relative;border:1px solid #fff;color:#000}[svelte-1297741814]#qs-options li.active,[svelte-1297741814] #qs-options li.active{border-color:steelblue;background-color:steelblue;color:#fff}[svelte-1297741814]#qs-options li:hover,[svelte-1297741814] #qs-options li:hover{border-color:steelblue}[svelte-1297741814]#qs-options li:hover,[svelte-1297741814] #qs-options li:hover{cursor:pointer}@media(max-width:768px){[svelte-1297741814]#qs-content-wrap,[svelte-1297741814] #qs-content-wrap{padding-top:0px}[svelte-1297741814]#qs-content,[svelte-1297741814] #qs-content{border-radius:0px}}";
 	appendNode(style, document.head);
 }
 
@@ -353,7 +353,7 @@ function QuickSwitcher(options) {
 	this._state = assign(data(), options.data);
 	this._recompute({ options: 1, value: 1, defaultOption: 1 }, this._state);
 
-	if (!document.getElementById("svelte-2012764796-style")) add_css();
+	if (!document.getElementById("svelte-1297741814-style")) add_css();
 
 	var _oncreate = oncreate.bind(this);
 

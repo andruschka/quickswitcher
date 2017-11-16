@@ -42,21 +42,21 @@
       var _this = this
       if (window.key) { // support for keymaster
         window.key('⌘+k', function (evt) {
-          _this.open()
           evt.preventDefault()
+          _this.open()
           return false
         })
       }
 
       window.onkeydown = function (e) {
         // open
-        if (e.ctrlKey && e.keyCode === 75) {
+        if (e.ctrlKey && e.keyCode === 75) { // ctrl k
           e.preventDefault()
           _this.open()
           return false
           // close
-        } else if (e.keyCode === 27) {
-          if (e.srcElement.id === 'qs-inp') {
+        } else if (e.keyCode === 27) { // escape
+          if (e.srcElement && e.srcElement.id === 'qs-inp') {
             e.preventDefault()
           }
           _this.close()
