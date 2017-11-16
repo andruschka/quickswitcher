@@ -12,8 +12,7 @@
     "compile": "svelte compile -f cjs -i src/QuickSwitcher.html > dist/quickswitcher.js",
     "compile-browser": "svelte compile -f iife -i src/QuickSwitcher.html | uglifyjs > dist/quickswitcher.browser.js",
     "production": "rm dist/quick* && npm run compile && npm run compile-browser",
-    "prepublish": "npm run production",
-    "pub": "npm version minor && git push origin master && npm publish"
+    "prepublish": "npm run production"
   },
   "author": "andruschka",
   "license": "ISC",
